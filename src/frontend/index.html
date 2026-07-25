@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Аудиомодем</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">📡</span>
+        <div>
+          <h1>Аудиомодем</h1>
+          <p class="subtitle">Передача данных через звук · FSK + Reed-Solomon</p>
+        </div>
+      </div>
+      <div class="conn-status" id="connStatus">
+        <span class="dot" id="connDot"></span>
+        <span id="connLabel">Микрофон выключен</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel spectrogram-panel">
+        <div class="panel-header">
+          <h2>Спектрограмма (водопад)</h2>
+          <button id="micToggle" class="btn btn-mic">🎤 Слушать</button>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="waterfall"></canvas>
+          <canvas id="freqAxis" class="freq-axis"></canvas>
+        </div>
+        <div class="legend">
+          <span class="legend-item"><i class="swatch swatch-zero"></i>FREQ_ZERO 1200 Hz (бит 0)</span>
+          <span class="legend-item"><i class="swatch swatch-one"></i>FREQ_ONE 2200 Hz (бит 1)</span>
+        </div>
+      </section>
+
+      <section class="panel chat-panel">
+        <div class="panel-header">
+          <h2>Сообщения</h2>
+          <button id="clearChat" class="btn btn-ghost">Очистить</button>
+        </div>
+        <div class="chat-log" id="chatLog">
+          <div class="hint">Отправьте сообщение или включите микрофон, чтобы принимать звук.</div>
+        </div>
+        <form id="sendForm" class="send-form">
+          <input
+            id="textInput"
+            class="text-input"
+            type="text"
+            placeholder="Введите текст для передачи через звук…"
+            maxlength="200"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-send" id="sendBtn">Отправить</button>
+          <input type="file" id="fileInput" style="display:none" />
+          <button type="button" class="btn btn-file" id="fileBtn" title="Отправить файл">Файл</button>
+          <button type="button" class="btn btn-manual-ack" id="manualAckBtn" title="Подтвердить приём вручную">Подтвердить вручную</button>
+        </form>
+
+        <!-- Прогресс-бар передачи/приёма файла -->
+        <div id="transferProgress" class="transfer-progress" style="display:none">
+          <div class="tp-header">
+            <span class="tp-icon" id="tpIcon">⬆</span>
+            <span class="tp-filename" id="tpFilename"></span>
+            <span class="tp-phase" id="tpPhase"></span>
+          </div>
+          <div class="tp-bar-wrap">
+            <div class="tp-bar-fill" id="tpBarFill"></div>
+          </div>
+          <div class="tp-stats">
+            <span id="tpPct">0%</span>
+            <span id="tpChunks"></span>
+            <span id="tpBytes"></span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="statusbar">
+      <span id="footerStatus">Готово</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
